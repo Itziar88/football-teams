@@ -19,6 +19,7 @@ const routes = [
   },
   {
     path: '/team',
+    query: '/:id',
     name: 'View Team',
     component: Team
   }

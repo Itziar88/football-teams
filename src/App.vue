@@ -8,6 +8,22 @@
   </div>
 </template>
 
+<script>
+import { mapActions } from 'vuex'
+
+export default {
+  name: 'App',
+  created () {
+    this.getTeams()
+  },
+  methods: {
+    ...mapActions({
+      getTeams: 'fetchTeams'
+    })
+  }
+}
+</script>
+
 <style lang="scss">
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;

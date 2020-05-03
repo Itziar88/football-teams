@@ -1,17 +1,16 @@
 <template>
   <div class="TeamsList">
-    <div v-if="teams !== null " class="Teams">
-    {{ teams[0] }}
+    <div v-if="teams.length !== 0 " class="Teams">
       <div v-for="team in teams" :key="team.id">
+      <!-- {{ team.logos }} -->
         <b-card
           :title="team.school"
-          img-src="https://picsum.photos/600/300/?image=25"
-          img-alt="Image"
-          img-top
           tag="article"
-          style="max-width: 15rem;"
-          class="mb-2"
+          style="width: 20rem; height: 25rem;"
+          class="Team mb-2"
+          @error="imageUrlAlt"
         >
+          <img :src="team.logos !== null ? team.logos[0] : ''" @error="imageUrlAlt" class="Logo">
           <b-card-text class="ColorsTitle font-weight-bold text-left">Colors</b-card-text>
             <div class="Colors">
               <b-card-text v-if="team.color">
@@ -21,7 +20,7 @@
                 Alter: <div class="Color" :style="{backgroundColor: team.alt_color}"></div>
               </b-card-text>
             </div>
-          <b-button @click="seeTeam(team)" variant="primary">View team</b-button>
+          <b-button @click="seeTeam(team.id)" variant="primary">View team</b-button>
         </b-card>
       </div>
     </div>
@@ -32,24 +31,21 @@
 </template>
 
 <script>
-import axios from 'axios'
+import { mapState } from 'vuex'
 
 export default {
   name: 'Teams',
-  data () {
-    return {
-      teams: null
-    }
-  },
-  mounted () {
-    this.getTeams()
+  computed: {
+    ...mapState({
+      teams: state => state.teamsList
+    })
   },
   methods: {
-    async getTeams () {
-      await axios.get('https://api.collegefootballdata.com/teams').then(response => { this.teams = response.data })
+    seeTeam (id) {
+      this.$router.push({ path: '/team', query: { id } })
     },
-    seeTeam (team) {
-      this.$router.push({ path: '/team' })
+    imageUrlAlt (event) {
+      event.target.src = 'https://picsum.photos/600/300/?image=25'
     }
   }
 }
@@ -60,6 +56,10 @@ export default {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-evenly;
+}
+.Logo {
+  width: 200px;
+  height: 200px;
 }
 .ColorsTitle {
   margin-bottom: 0rem;
