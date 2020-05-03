@@ -21,7 +21,7 @@
                 Alter: <div class="Color" :style="{backgroundColor: team.alt_color}"></div>
               </b-card-text>
             </div>
-          <b-button @click="seeTeam(team.id)" variant="primary">View team</b-button>
+          <b-button @click="seeTeam(team)" variant="primary">View team</b-button>
         </b-card>
       </div>
     </div>
@@ -48,8 +48,8 @@ export default {
     async getTeams () {
       await axios.get('https://api.collegefootballdata.com/teams').then(response => { this.teams = response.data })
     },
-    seeTeam (id) {
-      this.$router.push({ path: '/team', query: { id: `${id}` } })
+    seeTeam (team) {
+      this.$router.push({ path: '/team' })
     }
   }
 }

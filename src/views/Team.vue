@@ -12,7 +12,6 @@
 </template>
 
 <script>
-import axios from 'axios'
 
 export default {
   name: 'Team',
@@ -20,17 +19,6 @@ export default {
     return {
       team: null
     }
-  },
-  created () {
-    const { id } = this.$route.query
-    axios
-      .get(`https://api.collegefootballdata.com/teams/${id}`)
-      .then(response => {
-        this.team = response.data
-      })
-      .catch(e => {
-        this.errors.push(e)
-      })
   },
   methods: {
     back () {
