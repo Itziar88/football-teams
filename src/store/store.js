@@ -15,7 +15,6 @@ export default new Vuex.Store({
   },
   actions: {
     async fetchTeams ({ commit }) {
-      console.log('fetchTeams')
       const response = await axios.get(baseUrl)
       commit('setTeams', response.data)
     }
