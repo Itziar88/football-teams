@@ -1,32 +1,31 @@
 <template>
   <div class="FavouriteTeams">
     <h1>Favourite Teams</h1>
-    <!-- <b-form-input v-model="text" placeholder="Search by school"></b-form-input>
-    <b-button @click="filter(text)" variant="primary">filter</b-button> -->
-
     <div v-if="favouriteTeams.length !== 0" class="Wrapper">
       <b-button @click="reverse" variant="info">reverse</b-button>
-      <div class="Teams">
-        <b-card
-          v-for="(team, index) in favouriteTeams" :key="index"
-          tag="article"
-          style="width: 20rem; min-height: 22rem;"
-          class="mb-2 shadow"
-        >
-          <div class="Body mb-2">
-            <TeamCard v-bind="team"></TeamCard>
-            <b-card-sub-title sub-title="Comments" class="Subtitle font-weight-bold text-left" />
-            <div v-for="(comment, index) in favouriteTeamsStorage" :key="index">
-              <b-card-text v-if="Number(comment[0]) === team[0].id" class="text-left">
-                {{ comment[1] === '' ? 'There aren\'t any comments yet about this team' : comment[1]}}
-              </b-card-text>
+      <b-alert variant="success" :show="teamRemoved" dismissible>Team removed from favourites</b-alert>
+      <div class="row">
+        <div class="Teams col-12 col-sm-6 col-md-4 col-lg-3" v-for="(team, index) in favouriteTeams" :key="index">
+          <b-card
+            tag="article"
+            style="min-height: 22rem;"
+            class="mb-3 shadow"
+          >
+            <div class="Body mb-2">
+              <TeamCard v-bind="team"></TeamCard>
+              <b-card-sub-title sub-title="Comments" class="Subtitle font-weight-bold text-left" />
+              <div v-for="(comment, index) in favouriteTeamsStorage" :key="index">
+                <b-card-text v-if="Number(comment[0]) === team[0].id" class="text-left">
+                  {{ comment[1] === '' ? 'There aren\'t any comments yet about this team' : comment[1]}}
+                </b-card-text>
+              </div>
             </div>
-          </div>
-          <div class="Actions">
-            <b-button @click="seeTeam(team[0].id)" variant="info">View team</b-button>
-            <b-button @click="removeFav(team[0].id)" variant="info">Remove</b-button>
-          </div>
-        </b-card>
+            <div class="Actions">
+              <b-button @click="seeTeam(team[0].id)" variant="info" class="mb-0 mr-2">View team</b-button>
+              <b-button @click="removeFav(team[0].id)" variant="info" class="mb-0">Remove</b-button>
+            </div>
+          </b-card>
+        </div>
       </div>
     </div>
     <b-alert v-else show variant="dark mt-4">There are no favourite teams yet</b-alert>
@@ -44,7 +43,8 @@ export default {
       favouriteTeamsStorage: null,
       teams: null,
       favouriteTeams: null,
-      text: ''
+      text: '',
+      teamRemoved: false
     }
   },
   created () {
@@ -67,6 +67,7 @@ export default {
       this.$router.push({ path: '/team', query: { id } })
     },
     removeFav (id) {
+      this.teamRemoved = true
       localStorage.removeItem(id)
     },
     reverse () {
@@ -89,9 +90,6 @@ export default {
   }
 }
 .Teams {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
   article .card-body {
     display: flex;
     flex-direction: column;
@@ -101,8 +99,5 @@ export default {
 .Actions {
   display: flex;
   justify-content: space-evenly;
-  .btn {
-    margin-bottom: 0rem;
-  }
 }
 </style>

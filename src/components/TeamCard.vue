@@ -1,16 +1,16 @@
 <template>
   <div class="TeamCard">
-    <div class="Title">
+    <div class="Title mb-2">
       <b-card-title :title="school" />
       <img v-if="isFavourite" :src="star">
     </div>
-    <!-- <img :src="logos !== null ? logos[0] : ''" @error="imageUrlAlt" class="Logo mb-4"> -->
-    <b-card-sub-title sub-title="Colours" class="Subtitle font-weight-bold text-left" />
+    <img :src="logos !== null ? logos[0] : ''" @error="imageUrlAlt" class="Logo mb-4">
+    <b-card-sub-title sub-title="Colours" class="Subtitle font-weight-bold text-left mb-3" />
     <div  v-if="color || alt_color" class="Colours mb-2">
       <b-card-text v-if="color">
         Primary: <div class="Colour" :style="{backgroundColor: color}"></div>
       </b-card-text>
-      <b-card-text v-if="alt_color">
+      <b-card-text v-if="alt_color" class="ml-2">
         Alternative: <div class="Colour" :style="{backgroundColor: alt_color}"></div>
       </b-card-text>
     </div>
@@ -88,7 +88,7 @@ export default {
 .Colour {
   width: 20px;
   height: 20px;
-  margin-left: 0.5rem;
+  margin-left: 5px;
   border: 1px solid rgba(black, 0.3);
   text-align: left;
   font-weight: bold;

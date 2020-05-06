@@ -1,10 +1,9 @@
 <template>
   <div class="Team">
-    <!-- {{ teamInfo }} -->
     <h1>{{ teamInfo.school }}</h1>
-    <!-- <img :src="logos !== null ? logos[0] : ''" @error="imageUrlAlt" class="Logo mr-4"> -->
     <div class="Wrapper border border-info rounded-lg p-4 mb-4">
-      <img src="https://fakeimg.pl/300x300/?text=No image" class="mr-4" style="width: 300px; height: 300px;">
+      <img :src="teamInfo.logos !== null ? teamInfo.logos[0] : ''" @error="imageUrlAlt" class="Logo mr-4">
+      <!-- <img src="https://fakeimg.pl/300x300/?text=No image" class="mr-4" style="width: 300px; height: 300px;"> -->
       <div class="WrapperInfo">
         <div class="Info">
           <h4>Mascot: </h4>
@@ -45,6 +44,7 @@
         </div>
       </div>
     </div>
+    <b-alert variant="success" :show="teamAdded" dismissible>Team added to favourites</b-alert>
     <b-form-textarea
         v-if="isFavorite"
         id="textarea"
@@ -54,10 +54,12 @@
         max-rows="6"
         class="mb-3"
       ></b-form-textarea>
+    <b-alert variant="success" :show="commentAdded" dismissible>Comment saved</b-alert>
+    <b-alert variant="success" :show="teamRemoved" dismissible>Team removed from favourites</b-alert>
 
     <div class="FavouriteActions text-left mb-2">
-      <b-button v-if="!isFavorite" @click="isFavorite = true" variant="info">Add to favourites</b-button>
-      <b-button v-if="isFavorite" @click="saveFav(teamInfo.id, comment)" variant="info mr-2">Save</b-button>
+     <b-button v-if="!isFavorite" @click="saveFav(teamInfo.id)" variant="info">Add to favourites</b-button>
+      <b-button v-if="isFavorite" @click="saveComment(teamInfo.id, comment)" variant="info mr-2">Save comment</b-button>
       <b-button v-if="isFavorite" @click="removeFav(teamInfo.id)" variant="info">Remove from favourites</b-button>
     </div>
     <div class="BackActions">
@@ -76,7 +78,10 @@ export default {
   data () {
     return {
       comment: '',
-      isFavorite: false
+      isFavorite: false,
+      teamAdded: false,
+      commentAdded: false,
+      teamRemoved: false
     }
   },
   mounted () {
@@ -105,7 +110,13 @@ export default {
     backFavourites () {
       this.$router.push({ path: '/favouriteTeams' })
     },
-    saveFav (id, newComment) {
+    saveFav (id) {
+      this.teamAdded = true
+      this.isFavorite = true
+      localStorage.setItem(id, '')
+    },
+    saveComment (id, newComment) {
+      this.commentAdded = true
       if (newComment === null) {
         newComment = ''
       }
@@ -113,6 +124,7 @@ export default {
     },
     removeFav (id) {
       localStorage.removeItem(id)
+      this.teamRemoved = true
       this.isFavorite = false
       this.comment = ''
     },
