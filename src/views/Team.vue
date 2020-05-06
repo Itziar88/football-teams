@@ -3,7 +3,6 @@
     <h1>{{ teamInfo.school }}</h1>
     <div class="Wrapper border border-info rounded-lg p-4 mb-4">
       <img :src="teamInfo.logos !== null ? teamInfo.logos[0] : ''" @error="imageUrlAlt" class="Logo mr-4">
-      <!-- <img src="https://fakeimg.pl/300x300/?text=No image" class="mr-4" style="width: 300px; height: 300px;"> -->
       <div class="WrapperInfo">
         <div class="Info">
           <h4>Mascot: </h4>
