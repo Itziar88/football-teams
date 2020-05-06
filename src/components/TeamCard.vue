@@ -6,7 +6,7 @@
     </div>
     <!-- <img :src="logos !== null ? logos[0] : ''" @error="imageUrlAlt" class="Logo mb-4"> -->
     <b-card-sub-title sub-title="Colours" class="Subtitle font-weight-bold text-left" />
-    <div class="Colours mb-2">
+    <div  v-if="color || alt_color" class="Colours mb-2">
       <b-card-text v-if="color">
         Primary: <div class="Colour" :style="{backgroundColor: color}"></div>
       </b-card-text>
@@ -14,6 +14,7 @@
         Alternative: <div class="Colour" :style="{backgroundColor: alt_color}"></div>
       </b-card-text>
     </div>
+    <b-card-text v-else class="mb-3 text-left">There are no colors</b-card-text>
   </div>
 </template>
 

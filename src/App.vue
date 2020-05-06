@@ -4,7 +4,7 @@
       <router-link to="/">Teams</router-link> |
       <router-link to="/favouriteTeams">Favourite Teams</router-link>
     </div>
-    <router-view/>
+    <router-view class="mr-5 ml-5 mb-5"/>
   </div>
 </template>
 
